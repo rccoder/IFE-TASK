@@ -13,31 +13,31 @@ function isFunction (fn) {
 function cloneObject (src) {
   var cloneObj;
   switch (typeof src) {
-  	case 'undefined':
-  	  break;
-  	case 'string':
-  	  cloneObj = src + '';
-  	  break;
-  	case 'number':
-  	  cloneObj = src + 0;
-  	  break;
-  	case 'boolean':
-  	  cloneObj = 1 && src;
-  	  break;
-  	case 'object':
-  	  if (src === null) {
+    case 'undefined':
+      break;
+    case 'string':
+      cloneObj = src + '';
+      break;
+    case 'number':
+      cloneObj = src + 0;
+        break;
+    case 'boolean':
+      cloneObj = 1 && src;
+      break;
+    case 'object':
+      if (src === null) {
   	  	cloneObj = null;
   	  } else {
-  	  	if (src instanceof Array) {
-  	  		cloneObj = [];
-  	  		for (var i = 0; i < src.length; i++) {
-  	  			cloneObj.push(cloneObject(src[i]));
-  	  		}
+  	    if (src instanceof Array) {
+  	  	  cloneObj = [];
+  	  	  for (var i = 0; i < src.length; i++) {
+  	  	  	cloneObj.push(cloneObject(src[i]));
+  	  	  }
   	  	} else {
-  	  		cloneObj = {};
-  	  		for (var key in src) {
-  	  			cloneObj[key] = cloneObject(src[key]);
-  	  		}
+  	  	  cloneObj = {};
+  	  	  for (var key in src) {
+  	  	    cloneObj[key] = cloneObject(src[key]);
+  	  	  }
   	  	}
   	  }
   	  break;
