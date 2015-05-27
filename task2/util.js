@@ -105,3 +105,83 @@ function isMobilePhone(phone) {
   var pattern = /^1[3|5|7|8][0-9]\\d(8)$/;
   return pattern.test(phone);
 }
+
+// 为element增加一个样式名为newClassName的新样式
+function addClass (element, newClassName) {
+  var elementClassName = element.className;
+  element.className = elementClassName === '' ? newClassName : elementClassName + "" newClassName;
+}
+
+// 移除element中的样式oldClassName
+function removeClass (element, oldClassName) {
+  var re = element.className;
+  var pattern = new RegExp(\/boldClassName\b/);
+  element.className = re.replace(pattern, "");
+}
+
+// 判断siblingNode和element是否为同一个父元素下的同一级的元素，返回bool值
+function isSiblingNode (element, siblingNode) {
+  return element.parentNode == siblingNode.parentNode;
+}
+
+// 获取element相对于浏览器窗口的位置，返回一个对象{x, y}
+function getPosition (element) {
+  var pos = {};
+  pos.x = element.getBoundingClientRect().left + Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+  pos.y = element.getBoundingClientRect().top + Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+  return pos;
+}
+
+// 实现一个简单的Query
+// 可以通过id获取DOM对象，通过#标示
+// 可以通过tagName获取DOM对象
+// 可以通过样式名称获取DOM对象
+// 可以通过attribute匹配获取DOM对象
+// 可以通过简单的组合提高查询便利性
+function $ (selector) {
+  var element;
+  var arr = selector.split(" ");
+  var idExp = /^#[\w-]+$/;
+  var classExp = /^.[\w-]+$/;
+  var attrExp = /^\[[\w-]+\]$/;
+  for (var i = 0; i < arr.length; i++) {
+    if(arr[i].search(idExp) != -1) {
+      var id = arr[i].slice(1);
+      element = document.getElementById(id);
+    }
+    else if(arr[i].search(classExp) != -1) {
+      var cl = arr[i].slice(1);
+      element = document.getElementByClassName(cl)[0];
+    }
+    else if(arr[i].search(attrExp) != -1) {
+      var index = arr[i].indexOf('=');
+      if(index != -1) {
+        var attr = arr[i].slice(1, index);
+        var value = arr[i].slice(index+1, -1);
+        element = getElementByAttribute(attr, value);
+      } else {
+        var attr = arr[i].slice(1);
+        element = getElementByAttribute(attr, value);
+      }
+    } else {
+      element = document.getElementByTagName(arr[i])[0];
+    }
+  }
+  return element;
+}
+function getElementByAttribute(attr, value) {
+  var allElemens = document.getElementByTagName('*');
+  if(value) {
+    for(var i = 0; i < allElemens.length; i++) {
+      if(allElemens[i].getAttribute(attr) == value) {
+        return allElemens[i];
+      }
+    }
+  } else {
+    for(var i = 0; i < allElemens.length; i++) {
+      if(allElemens[i].getAttribute(attr)) {
+        return allElemens[i];
+      }
+    }
+  }
+}
