@@ -217,3 +217,58 @@ function addEnterEvent(element, listener) {
     }
   })
 }
+
+$.on = function  (selector, event, listener) {
+  var element = document.querySelector(selector);
+  addEvent(element, event, listener);
+  return this;
+}
+
+$.un = function (selector, event, listener) {
+  var element = document.querySelector(selector);
+  removeClass(element, event, listener);
+  return this;
+}
+
+$.click = function(selector, event, listener) {
+  var element = document.querySelector(selector);
+  addClickEvent(element, event, listener);
+  return this;
+}
+
+$.enter = function (selector, listener) {
+  var element = document.querySelector(selector);
+addEnterEvent(element, listener);
+return this;
+}
+
+/*
+ * 事件代理
+ */
+
+// 判断是否为IE浏览器，返回-1或者版本号
+function isIE() {
+    return /msie (\d+\.\d+)/i.test(navigator.userAgent)
+        ? (document.documentMode || + RegExp['\x241']) : -1;
+}
+
+// 设置cookie
+function setCookie(cookieName, cookieValue, expiredays) {
+  var data = new Data();
+  data.setTime(data.getTime() + expiredays*24*60*60*1000);
+  var ex = 'expires' + data.toUTCString();
+  document.cookie = cookieName + '=' + cookieValue + expire;
+}
+
+// 获取cookie值
+function getCookie(cookieName) {
+    var mcookie = document.cookie;
+    if (mcookie.indexOf(cookieName + '=')) {
+      var start = mcookie.indexOf('=', mcookie.indexOf(cookieName + '=') + 1;
+        var end = mcookie.indexOf(';', start);
+    }
+    if(end == -1) {
+      end = mcookie.length;
+    }
+    return unescape(mcookie.substring(start, end));
+}
