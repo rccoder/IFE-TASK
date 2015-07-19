@@ -272,3 +272,52 @@ function getCookie(cookieName) {
     }
     return unescape(mcookie.substring(start, end));
 }
+
+// 简单的Ajax封装
+function ajax(url, options) {
+  var xmlhttp;
+  //古老的兼容
+  if (window.XMLHttpRequest) {
+    xmlhttp = new XMLHttpRequest();
+  } else {
+    xmlhttp = new ActiveObject('Microsoft.XMLHTTP');
+  }
+  if (options.data) {
+    var dataArray = [];
+    for (var item in options.data) {
+      dataArray.puhs(item + '=' + options.data[item]);
+    }
+    var data = dataArray.join('&');
+  }
+  if (!options.type) {
+    options.type = 'GET';
+  }
+  options.type = options.type.toUpperCase();
+  if(options.type === 'GET') {
+    var mURL = '';
+    if (options.data) {
+      mURL = url + '?' + data;
+    } else {
+      mURL = url;
+    }
+    xmlhttp.open('GET', mURL, true);
+    xmlhttp.send();
+  } else if (options.type === 'POST') {
+    xmlhttp.open('POST', mURL, true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send();
+  }
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState === 4) {
+      if (xmlhttp.status === 200) {
+        if (options.onsuccess) {
+          options.onsuccess(xmlhttp.responseText, responseXML);
+        }
+      } else {
+        if(options.onfail) {
+          options.onfail();
+        }
+      }
+    }
+  }
+}
