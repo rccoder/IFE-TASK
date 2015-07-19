@@ -91,7 +91,7 @@ function each (arr, fn) {
 
 // 获取一个对象里面第一层元素的数量，返回一个整数
 function getObjectLength (obj) {
-  return Object.keys(obj).length 
+  return Object.keys(obj).length
 }
 
 // 判断是否为邮箱地址
@@ -184,4 +184,36 @@ function getElementByAttribute(attr, value) {
       }
     }
   }
+}
+
+// 给一个element绑定一个针对event事件的响应，响应函数为listener
+function addEvent(element, event, listener) {
+  if (element.addEventListener) {
+    element.addEventListener(event, listener);
+  } else {
+    element.attachEvent("on" + event, listener);
+  }
+}
+
+// 移除element对象对于event事件发生时执行listener的响应
+function removeEvent(element, event, listener) {
+  if (element.removeEventListener) {
+    element.removeEventListener(event, listener);
+  } else {
+    element.detachEvent("on" + event, listener);
+  }
+}
+
+// 实现对click事件的绑定
+function addClickEvent(element, listener) {
+  addEvent(element, "click", listener);
+}
+
+// 实现对于按Enter键时的事件绑定
+function addEnterEvent(element, listener) {
+  addEvent(element, "keydown", function(event) {
+    if(event.keyCode == 13) {
+      listener();
+    }
+  })
 }
